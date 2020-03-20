@@ -1,0 +1,8 @@
+.vscode/
+__pycache__/
+common/data/
+common/__pycache__/
+common/tools/__pycache__/
+instagram/__pycache__/
+instagram/src/__pycache__/
+debug.log
