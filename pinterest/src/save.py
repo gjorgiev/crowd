@@ -6,6 +6,7 @@ from common.tools.utils import read_file_as_array
 from common.tools.utils import read_first_line
 from common.tools.utils import remove_text_from_file
 from common.tools.utils import remove_first_line
+from common.tools.utils import read_random_line
 from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.common.action_chains import ActionChains
@@ -36,8 +37,10 @@ class Button:
             actions.click(button)
             actions.perform()
             print('click: ' + xpath)
+            return True
         except NoSuchElementException as ex:
             print(ex)
+            return False
 
     def click_react(self):
         self.__click_button("//div[@class='Jea X6t zI7 iyn Hsu']")
@@ -62,7 +65,7 @@ class Button:
                 print(ex)
 
     def click_save(self):
-        self.__click_button("//span[@title='Save']")
+        return self.__click_button("//span[@title='Save']")
 
     def click_continue(self):
         self.__click_button("//div[@data-test-id='appUpsell-continue']")
@@ -93,8 +96,9 @@ class Input:
     def enter_boardname(self, board_name):
         self.__enter_data("boardNameInput", board_name)
 
-# read the pin file
-pin = read_first_line("pinterest\\data\\pin.txt")
+# read the pin file # input("Enter Pin: ")
+pin = read_random_line("pinterest\\data\\pin.txt")
+print(pin)
 # define path for saved pins
 saved_path = "pinterest\\data\\saved\\"
 # set pin file name
@@ -131,13 +135,14 @@ def choose_board_name():
     lock.release()
     return board
 
+cookies_path = "pinterest\\cookies"
+cookies = os.listdir(cookies_path)
+
 def do_save_action(driver, cookie):
     driver.get(pin)
     button = Button(driver)
-    try:
-        button.click_save()
-    except NoSuchElementException:
-        save_as_pinned(cookie)
+    if not button.click_save():
+        os.remove(cookies_path + "\\" + cookie)
         driver.close()
         driver.quit()
         return
@@ -157,9 +162,6 @@ def do_save_action(driver, cookie):
     driver.close()
     driver.quit()
 
-cookies_path = "pinterest\\cookies"
-cookies = os.listdir(cookies_path)
-
 def has_connection(driver):
     try:
         driver.find_element_by_xpath('//span[@jsselect="heading" and @jsvalues=".innerHTML:msg"]')
@@ -177,7 +179,7 @@ def run(cookie):
             driver.close()
             driver.quit()
 
-def run_pool(processes = 3):
+def run_pool(processes = 5):
     with Pool(processes=processes) as pool:
         pool.map(run, cookies)
         pool.close()

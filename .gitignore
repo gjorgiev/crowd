@@ -6,3 +6,4 @@ common/tools/__pycache__/
 instagram/__pycache__/
 instagram/src/__pycache__/
 debug.log
+venv/

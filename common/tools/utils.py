@@ -104,3 +104,8 @@ def remove_first_line(path):
         data = fin.read().splitlines(True)
     with open(path, 'w') as fout:
         fout.writelines(data[1:])
+
+def read_random_line(path):
+    with open(path) as f:
+        lines = f.readlines()
+        return random.choice(lines)
