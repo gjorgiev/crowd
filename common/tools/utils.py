@@ -4,6 +4,7 @@ import random
 import os
 import re
 import pickle
+from selenium.common.exceptions import InvalidCookieDomainException
 
 def setup_chrome_mobile():
     PROXIES = ["207.229.93.68:1027","207.229.93.68:1028","207.229.93.68:1025","207.229.93.68:1029","207.229.93.68:1026"]
@@ -49,7 +50,10 @@ def cookie_driver(name):
     for cookie in cookies:
         if 'expiry' in cookie:
             del cookie['expiry']
-        driver.add_cookie(cookie)
+        try:
+            driver.add_cookie(cookie)
+        except InvalidCookieDomainException as ex:
+            print(ex)
     driver.implicitly_wait(10)
     return driver
 
@@ -60,7 +64,10 @@ def setup_chrome_mobile_cookie(cookies_path, name):
     for cookie in cookies:
         if 'expiry' in cookie:
             del cookie['expiry']
-        driver.add_cookie(cookie)
+        try:
+            driver.add_cookie(cookie)
+        except InvalidCookieDomainException as ex:
+            print(ex)
     return driver
 
 
