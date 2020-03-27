@@ -142,7 +142,7 @@ def do_save_action(driver, cookie):
     driver.get(pin)
     button = Button(driver)
     if not button.click_save():
-        os.remove(cookies_path + "\\" + cookie)
+        #os.remove(cookies_path + "\\" + cookie)
         driver.close()
         driver.quit()
         return
@@ -159,6 +159,9 @@ def do_save_action(driver, cookie):
     sleep(3)
     button.click_emoji()
     sleep(1)
+    watch = random.randint(300, 500)
+    print("watch time: " + str(watch))
+    sleep(watch)
     driver.close()
     driver.quit()
 

@@ -15,7 +15,8 @@ def setup_chrome_mobile():
     options = webdriver.ChromeOptions()
     options.add_argument('--proxy-server=%s' % PROXY)
     options.add_argument("--disable-notifications")
-    options.add_argument("--headless")
+    #options.add_argument("--headless")
+    options.add_argument("--window-size=250,500")
     options.add_experimental_option("mobileEmulation", mobile_emulation)
     options.add_experimental_option("prefs", prefs)
 
@@ -67,6 +68,7 @@ def setup_chrome_mobile_cookie(cookies_path, name):
         try:
             driver.add_cookie(cookie)
         except InvalidCookieDomainException as ex:
+            print(name)
             print(ex)
     return driver
 
