@@ -97,7 +97,7 @@ class Input:
         self.__enter_data("boardNameInput", board_name)
 
 # read the pin file # input("Enter Pin: ")
-pin = read_random_line("pinterest\\data\\pin.txt")
+pin = read_first_line("pinterest\\data\\pin.txt")
 print(pin)
 # define path for saved pins
 saved_path = "pinterest\\data\\saved\\"
