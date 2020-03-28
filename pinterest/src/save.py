@@ -159,7 +159,7 @@ def do_save_action(driver, cookie):
     sleep(3)
     button.click_emoji()
     sleep(1)
-    watch = random.randint(300, 500)
+    watch = 400 # random.randint(300, 500)
     print("watch time: " + str(watch))
     sleep(watch)
     driver.close()
